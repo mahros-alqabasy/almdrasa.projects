@@ -19,13 +19,21 @@ class Body(tk.Frame):
         self.location_entry = tk.Entry(self)
         self.location_entry.pack(side="top", fill="x")
 
-        self.search_button = tk.Button(self, text="Search", command=self.search_weather)
+        # self.search_button = tk.Button(self, text="Search", command=self.search_weather)
+        self.search_button = tk.Button(self, text="Search", command=self.run_search_weather)
+
         self.search_button.pack(side="top", fill="x")
 
+        
+    def run_search_weather(self):
+        asyncio.run(self.search_weather())
+
     async def search_weather(self):
+
         location = self.location_entry.get()
         if location:
             # Trigger the loadData method in the WeatherApp with the location
+        
             result = await self.onSearchClicked(location)
             
             self.update_weather_info(result)

@@ -30,7 +30,6 @@ class WeatherApp(gui.Gui):
         self.init_widgets()
 
     async def loadData(self, location: str):
-        # Get coordinates asynchronously based on location input
         coordinates = await Location().getCoordinates(location)
 
         if coordinates:
@@ -40,17 +39,18 @@ class WeatherApp(gui.Gui):
                 "current_weather": "true"
             }
 
-            # Send the request asynchronously
             response = await self.api.get("/", params=params)
 
             if response:
-                # Parse the weather data into the WeatherData object
                 weather_data = wd.parse_weather_data(response)
                 self.display_weather_data(weather_data)
+                return weather_data  # ✅ return it
             else:
                 print("No weather data found.")
+                return None
         else:
             print("Invalid coordinates.")
+            return None
 
     def display_weather_data(self, weather_data):
         # Pass the weather data to the Body component for display
