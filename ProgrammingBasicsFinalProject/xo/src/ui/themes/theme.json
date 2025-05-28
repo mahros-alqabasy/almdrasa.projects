@@ -1,0 +1,53 @@
+{
+  "theme_name": "light",
+  "mode": "light",
+  "colors": {
+    "primary": "#e53935",
+    "primary_dark": "#c62828",
+    "secondary": "#ef5350",
+    "background": "#f5f5f5",
+    "card_background": "#ffffff",
+    "border_color": "#e0e0e0",
+    "text_primary": "#212121",
+    "text_secondary": "#616161",
+    "disabled": "#bdbdbd",
+    "highlight": "#ffcdd2"
+  },
+  "fonts": {
+    "family": "Arial",
+    "base_size": 12,
+    "title_size": 14,
+    "small_size": 10,
+    "weight_normal": "normal",
+    "weight_bold": "bold"
+  },
+  "components": {
+    "button": {
+      "bg": "#e53935",
+      "fg": "#ffffff",
+      "active_bg": "#c62828",
+      "active_fg": "#ffffff",
+      "border_radius": 5
+    },
+    "label": {
+      "fg": "#212121",
+      "bg": "#f5f5f5",
+      "font": [
+        "Arial",
+        120
+      ]
+    },
+    "frame": {
+      "bg": "#ffffff",
+      "borderwidth": 1,
+      "relief": "flat"
+    },
+    "entry": {
+      "bg": "#ffffff",
+      "fg": "#212121",
+      "insertbackground": "#212121",
+      "highlightthickness": 1,
+      "highlightcolor": "#e53935"
+    }
+  }
+}

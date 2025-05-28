@@ -1,0 +1,13 @@
+XO GAME TODO LIST
+
+
+TODO:
+  - implement logic
+    - Entities
+      - Board: has N Cells
+      - Cell: has Move
+      - Move: has Position, Player, code
+      - Position: has row, col
+      - Player: has name
+      - code: will be 'x' or 'O'
+  - implement ui
