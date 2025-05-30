@@ -18,6 +18,9 @@ class Gui:
       component_styles_dir='themes/',
     ):
     self.root = tk.Tk()
+    # self.root.wm_attributes('-zoomed', True)
+    # self.root.wm_attributes('-fullscreen', True)
+    self.root.configure(background= "#ffffff", borderwidth =2)
     self.conf = conf
     self.style_manager = StyleManager(theme_path, component_styles_dir)
     self.init()

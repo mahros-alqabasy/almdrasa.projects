@@ -23,7 +23,6 @@ class Circular(Generic[T]):
     if self.length() == 0:
       return None
     
-    # if self.length() == self._
       
     self._currentIndex += 1
     return self._circular[self._currentIndex]

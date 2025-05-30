@@ -67,10 +67,26 @@ class Board:
     
     # check cols
     for col in range(self._size):
-      if all(self._cells[row][col].move() == lastPlayer for row in range(self._size)):
-        print('Winner,', row, col)
+      col_data = [self._cells[row][col] for row in range(self._size)]
+      if all(x.move() != None and x.move().player() == lastPlayer for x in col_data):
+        print('Winner, in cols')
         self._status = BoardStatus(lastPlayer)
         return self._status
+      
+    # check cross
+    cross1 = [self._cells[i][i] for i in range(self._size)]
+    cross2 = [self._cells[i][self._size - 1 - i] for i in range(self._size)]
+    
+    if all(x.move() != None and x.move().player() == lastPlayer for x in cross1):
+      print('Winner, in cross1')
+      self._status = BoardStatus(lastPlayer)
+      return self._status
+    
+    if all(x.move() != None and x.move().player() == lastPlayer for x in cross2):
+      print('Winner, in cross2')
+      self._status = BoardStatus(lastPlayer)
+      return self._status
+    
     
     self._status = BoardStatus(None)
     return self._status
@@ -84,47 +100,29 @@ class Board:
     move = self._history.pop()
     self._cells[move.position().row()].pop(move.position().col())
     
-  def nextTurnIndex(self)->int:
-    if self._turnIndex < len(self._players)-1:
-      return self._turnIndex+1
-    
-    """doc
-      - this is a simple circular, but we can use a user defined datasteucture instead, Circular
-        inside: [src.libs.circular]
-      - self.test.self.course mouse mouse mouse
-    """
-    return 0
+  def nextTurnIndex(self) -> int:
+    return (self._turnIndex + 1) % len(self._players)
        
   def nextTurnPlayer(self)->Player:
     return self._players[self.nextTurnIndex()]
-    
+  
   def applyMove(self, position:Position):    
-    player:Player = self.nextTurnPlayer()
-    
-    move:Move = Move(position, '', player)
-    
-    
-    if self.isValidMove(move):
-      self._cells[position.row()][position.col()].fill(move)
-    else:
-      return None
+      player:Player = self.nextTurnPlayer()
+      move:Move = Move(position, '', player)
+      if self.isValidMove(move):
+        self._cells[position.row()][position.col()].fill(move)
+      else:
+        return False
 
-    # add move to history
-    self._history.push(move)
-    
-    
-    # check winner
-    self._status = self.checkWinner()
-    
-    
-    if self._status.hasWinner() and self._status.winner != self._history.top().player() :
-      print("Can't apply move")
-      self.redo()
-      return
-    
-    # update player turns
-    self._turnIndex = self.nextTurnIndex()
-    
+      self._history.push(move)
+      self._status = self.checkWinner()
+      if self._status.hasWinner() and self._status.winner != self._history.top().player() :
+          print("Can't apply move")
+          self.redo()
+          return False
+
+      self._turnIndex = self.nextTurnIndex()
+      return True
     
   def isValidMove(self, move:Move):
     target:Cell = self._cells[move.position().row()][move.position().col()]
@@ -133,11 +131,10 @@ class Board:
       not target.filled(),
       self.isCorrectTurn(move.player())
     ]
-    
-    
+
     # all checks must be true
-    return all(checks)  
-  
+    return all(checks)
+
   def isCorrectTurn(self, player:Player):
     return player != self._players[self._turnIndex]
   
@@ -156,7 +153,7 @@ class Board:
   
   def init(self):
     self._cells = []
-    self._turnIndex = -1
+    self._turnIndex = 0 
     self._history = Stack()
     self._status = BoardStatus(None)
     self.reset()
